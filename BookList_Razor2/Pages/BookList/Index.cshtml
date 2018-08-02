@@ -1,0 +1,100 @@
+﻿@page "{id:int?}/{handler?}"
+@model BookList_Razor2.Pages.BookList.IndexModel
+@{
+    ViewData["Title"] = "Index";
+}
+
+<!--Start-->
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
+
+@section Scripts{
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#BookList').DataTable({
+            });
+        });
+    </script>
+}
+<!--End-->
+
+<br />
+<h2>Book list</h2>
+<br />
+
+@if (Model.Message != null)
+{
+    <div class="alert alert-info alert-dismissable" role="Alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        @Model.Message
+    </div>
+}
+<a asp-page="Create" class="btn btn-primary">Create new book</a>
+
+@if (Model.Books.Count() > 0)
+{
+    <form method="post">
+        <div>
+            <br />
+            <!--id="TableName" is required for datatables-->
+            <table id="BookList" class="table table-condensed table-hover">
+                <thead>
+                    <!--For datatables-->
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(b => b.Books.FirstOrDefault().ISBN)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(b => b.Books.FirstOrDefault().Title)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(b => b.Books.FirstOrDefault().Author)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(b => b.Books.FirstOrDefault().Price)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(b => b.Books.FirstOrDefault().Availability)
+                        </th>
+                        <th>Action</th>
+                    </tr>
+                </thead> <!--For datatables-->
+                <tbody>
+                    <!--For datatables-->
+                    @foreach (var book in Model.Books)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(b => book.ISBN)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(b => book.Title)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(b => book.Author)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(b => book.Price)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(b => book.Availability)
+                            </td>
+                            <td>
+                                <a asp-page="Details" asp-route-id="@book.Id" class="btn btn-sm btn-primary">Details</a>
+                                <a asp-page="Edit" asp-route-id="@book.Id" class="btn btn-sm btn-success">Edit</a>
+                                <button asp-page-handler="Delete" asp-route-id="@book.Id" class="btn btn-sm btn-danger">Delete</button>
+                            </td>
+                        </tr>
+                    }
+                </tbody> <!--For datatables-->
+            </table>
+        </div>
+    </form>
+}
+else
+{
+    <br />
+    <p>No books found</p>
+}

@@ -2,6 +2,10 @@
   "iisSettings": {
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
+    "iis": {
+      "applicationUrl": "http://localhost/BookList_Razor2",
+      "sslPort": 0
+    },
     "iisExpress": {
       "applicationUrl": "http://localhost:49909/",
       "sslPort": 0
